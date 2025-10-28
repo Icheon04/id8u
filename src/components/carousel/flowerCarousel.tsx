@@ -1,4 +1,13 @@
+"use client";
+
+import {useRouter, useSearchParams} from "next/navigation";
+import {useEffect, useState} from "react";
+
+import {FlowerPictureType} from "@/lib/schema/flowerPictureSchema";
+import {cn} from "@/lib/utils";
+
 import {FlowerCarouselItem} from "@/components/carousel/flowerCarouselItem";
+import {Button} from "@/components/ui/button";
 import {
   Carousel,
   CarouselApi,
@@ -16,11 +25,6 @@ import oeillets from "@/assets/flowers/oeillets.jpg"
 import renoncules from "@/assets/flowers/renoncules.jpg"
 import roses from "@/assets/flowers/roses.jpg"
 import tulipes from "@/assets/flowers/tulipes.jpg"
-import {cn} from "@/lib/utils";
-import {useEffect, useState} from "react";
-import {Button} from "@/components/ui/button";
-import {useRouter, useSearchParams} from "next/navigation";
-import {FlowerPictureType} from "@/lib/schema/flowerPictureSchema";
 
 const flowersData: FlowerPictureType[] = [
   {

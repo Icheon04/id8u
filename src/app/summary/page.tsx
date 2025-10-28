@@ -1,13 +1,11 @@
 "use client";
 
 import * as React from "react";
+
 import {Button} from "@/components/ui/button";
-import {sendDateResponse} from "@/lib/api/api";
-import {useRouter, useSearchParams} from "next/navigation";
-import {DateResponseType} from "@/lib/schema/dateResponseSchema";
 
 export default function Summary() {
-  const router = useRouter();
+  /*const router = useRouter();
   const searchParams = useSearchParams();
   const response: DateResponseType = {
     date: searchParams.get("date") ?? "undefined",
@@ -19,7 +17,7 @@ export default function Summary() {
   const onClick = async () => {
     await sendDateResponse(response)
     router.push("/summary/see-you-soon")
-  }
+  }*/
 
   return (
     <main>
@@ -27,7 +25,7 @@ export default function Summary() {
       <h2>La date</h2>
       <h2>Le restaurant</h2>
       <h2>L'activité</h2>
-      <Button onClick={onClick}>Soumettre mon choix</Button>
+      <Button>Soumettre mon choix</Button>
     </main>
   );
 }

@@ -1,11 +1,11 @@
-'use client';
+import Link from "next/link";
+import * as React from "react";
 
 import {CardDataType} from "@/components/GoogleMapsAddressCard/card";
 import {GoogleMapsAddressCards} from "@/components/GoogleMapsAddressCard/cards";
-import * as React from "react";
-import Link from "next/link";
+import {Suspense} from "react";
 
-export default function HomePage() {
+export default function HomePage()  {
 
   const data: CardDataType[] = [{
     title: "L'activité",
@@ -36,7 +36,9 @@ export default function HomePage() {
       <Link href={{pathname: "/what-food"}}>Back</Link>
       <h1>Peut être que tu voudrais faire une activitée ? </h1>
       <p>Ce qu'il y a en étoile c'est que j'aurais aimé faire</p>
-      <GoogleMapsAddressCards data={data} redirectUrl={"/what-about-you"} placeKeyQuery={"placeActivityId"}/>
+      <Suspense>
+        <GoogleMapsAddressCards data={data} redirectUrl="/what-about-you" placeKeyQuery="placeActivityId"/>
+      </Suspense>
     </main>
   );
 }

@@ -1,12 +1,12 @@
-import {dateResponseSchema} from "@/lib/schema/dateResponseSchema";
 import {NextResponse} from "next/server";
+
 import {mailOptions, transporter} from "@/lib/mailer/nodemailer";
+import {dateResponseSchema} from "@/lib/schema/dateResponseSchema";
 
 export async function POST(req: Request) {
   const data = await req.json();
   const result = dateResponseSchema.safeParse(data)
   if (result.success) {
-
     try{
       await transporter.sendMail({
         ...mailOptions,
@@ -17,7 +17,6 @@ export async function POST(req: Request) {
 
       return NextResponse.json(result.data);
     }catch(e) {
-      console.error(e);
       const error = e as Error;
       return NextResponse.json({message: error.message })
     }

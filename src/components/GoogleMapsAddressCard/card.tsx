@@ -1,10 +1,11 @@
 "use client";
 
-import {z} from "zod";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import Button from "@/components/buttons/Button";
 import Link from "next/link";
 import {useRouter, useSearchParams} from "next/navigation";
+import {z} from "zod";
+
+import Button from "@/components/buttons/Button";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 
 export const cardSchema = z.object({
   title: z.string(),
@@ -53,7 +54,7 @@ export function GoogleMapsAddressCard({data, redirectUrl, placeKeyQuery}: Readon
         <p>noté: {data.rating}</p>
         <div className="items-center space-x-3">
           <Button>
-            <Link href={data.googleMapsUrl} target={"_blank"}>Aller sur google maps</Link>
+            <Link href={data.googleMapsUrl} target="_blank">Aller sur google maps</Link>
           </Button>
           <Button onClick={onclick}>Je prends celui là !</Button>
         </div>
