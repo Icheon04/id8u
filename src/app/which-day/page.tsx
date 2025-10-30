@@ -32,10 +32,10 @@ export default function HomePage() {
    }
 
   return (
-    <main>
+    <main className="flex flex-col items-center justify-center min-h-screen gap-4">
       <h1>Quel jour t'arrangerait le mieux ?</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center">
           <FormField
             name="date"
             control={form.control}

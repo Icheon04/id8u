@@ -96,7 +96,7 @@ export function FlowerCarousel({className}: { className?: string }) {
   }, [api]);
 
   return (
-    <>
+    <div className="flex flex-col">
       <Carousel
         setApi={setApi}
         opts={{
@@ -120,7 +120,11 @@ export function FlowerCarousel({className}: { className?: string }) {
       <div className="px-5 -mt-5 text-center text-sm text-muted-foreground">
         <b>{flowerTitle.charAt(0).toUpperCase() + flowerTitle.slice(1)}</b> - {flowerDescription}
       </div>
-      <Button onClick={onClick}>"Je choisis ces fleurs"</Button>
-    </>
+
+      {/*TODO changer ce div et le mettre ailleurs*/}
+      <div className="flex justify-center py-5">
+        <Button onClick={onClick} className="w-fit">Je choisis ces fleurs</Button>
+      </div>
+    </div>
   )
 }

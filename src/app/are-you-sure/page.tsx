@@ -9,10 +9,12 @@ export default function AreYouSure() {
   const router = useRouter();
 
   return(
-    <main>
+    <main className="flex flex-col items-center justify-center min-h-screen gap-4">
       <h1>Donc c'est vraiment un non?</h1>
-      <Button className="green" onClick={() => {router.push("/which-day")}}>Oui</Button>
-      <Button className="red" onClick={() => {router.push("/are-you-sure/bye-bye")}}>Non</Button>
+      <div className="flex gap-4">
+        <Button className="green" onClick={() => {router.push("/which-day")}}>Oui</Button>
+        <Button className="red" onClick={() => {router.push("/are-you-sure/bye-bye")}}>Non</Button>
+      </div>
     </main>
   )
 }

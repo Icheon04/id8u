@@ -1,10 +1,7 @@
-import Link from "next/link";
 import {Suspense} from "react";
 
 import {CardDataType} from "@/components/GoogleMapsAddressCard/card";
 import {GoogleMapsAddressCards} from "@/components/GoogleMapsAddressCard/cards";
-
-import ClientSearch from "@/app/client-search";
 
 export default function WhatFood() {
     const data: CardDataType[] = [{
@@ -33,13 +30,14 @@ export default function WhatFood() {
 
 
     return (
-      <main>
-        <Link href={{pathname: "/which-day"}}>Back</Link>
-        <h1>Dans quel restaurant tu souhaiterais manger ? </h1>
-        <p>Je te mets des suggestions juste en bas, mais descends en fin de page si tu as une idée</p>
-        <Suspense>
-          <GoogleMapsAddressCards data={data} redirectUrl="/what-activity" placeKeyQuery="placeFoodId"/>
-        </Suspense>
+      <main className="flex justify-center">
+        <div className="flex flex-col items-center justify-center min-h-screen gap-4 w-fit">
+          <h1>Dans quel restaurant tu souhaiterais manger ? </h1>
+          <p>Je te mets des suggestions juste en bas, mais descends en fin de page si tu as une idée</p>
+          <Suspense>
+            <GoogleMapsAddressCards data={data} redirectUrl="/what-activity" placeKeyQuery="placeFoodId"/>
+          </Suspense>
+        </div>
       </main>
     );
 };

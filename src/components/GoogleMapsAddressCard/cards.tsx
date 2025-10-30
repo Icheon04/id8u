@@ -11,7 +11,7 @@ export function GoogleMapsAddressCards({data, redirectUrl, placeKeyQuery}: Reado
     <>
       {data.map((address, index) => {
         return (
-          <div key={index} className="m-5">
+          <div key={index} className="w-full">
             <GoogleMapsAddressCard data={address} redirectUrl={redirectUrl} placeKeyQuery={placeKeyQuery}/>
           </div>
         )
