@@ -3,7 +3,6 @@
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useRouter} from "next/navigation";
 import * as React from 'react';
-import {useState} from "react";
 import {fr} from "react-day-picker/locale";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
@@ -14,28 +13,29 @@ import {Calendar} from "@/components/ui/calendar";
 import {Form, FormField} from "@/components/ui/form";
 
 const DateSchema = z.object({
-  date: z.date(),
+  date: z.date().optional(),
 })
 
 export default function HomePage() {
   const router = useRouter()
-  const [isPicked, setIsPicked] = useState(false);
 
+  const [date, setDate] = React.useState<Date | undefined>(new Date(new Date().setDate(new Date().getDate() + 1)))
   const form = useForm<z.infer<typeof DateSchema>>({
     resolver: zodResolver(DateSchema),
+    values: {date},
   })
 
-  const onSubmit = (data: z.infer<typeof DateSchema>) => {
-    const selectedDate = data.date.toLocaleDateString();
+  const onSubmit = () => {
+    const selectedDate = date?.toLocaleDateString() ?? new Date().toLocaleDateString();
     const queries = new URLSearchParams({date: selectedDate});
     router.push(`/what-food?${queries}`)
-   }
+  }
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-4">
       <h1>Quel jour t'arrangerait le mieux ?</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center p-4">
           <FormField
             name="date"
             control={form.control}
@@ -43,17 +43,17 @@ export default function HomePage() {
               <Calendar
                 mode="single"
                 locale={fr}
-                weekStartsOn={1}
-                selected={field.value}
+                selected = {date}
                 onSelect={(value) => {
-                  value ? setIsPicked(true) : setIsPicked(false)
+                  setDate(value)
                   field.onChange(value)
                 }}
                 disabled={(date) => date < new Date()}
+                className="rounded-lg border mb-4 [--day:--spacing()] max-sm:[--cell-size:40px] md:[--cell-size:50px]"
               />
             )}/>
-          <Button type="submit" disabled={!isPicked}>
-            {isPicked ? "J'ai choisi ma date, à table !" : "Aïe, il faut choisir une date"}
+          <Button type="submit" disabled={!date}>
+            {date ? "J'ai choisi ma date, à table !" : "Aïe il faut choisir une date"}
           </Button>
         </form>
       </Form>
