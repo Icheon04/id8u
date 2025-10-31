@@ -1,7 +1,7 @@
 "use client";
 
 import {useRouter, useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 import {FlowerPictureType} from "@/lib/schema/flowerPictureSchema";
 import {cn} from "@/lib/utils";
@@ -63,7 +63,8 @@ const flowersData: FlowerPictureType[] = [
 ]
 
 export function FlowerCarousel({className}: { className?: string }) {
-  const [api, setApi] = useState<CarouselApi>()
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
   const [flowerTitle, setFlowerTitle] = useState(flowersData[0].title);
   const [flowerDescription, setFlowerDescription] = useState(flowersData[0].description);
 
@@ -84,24 +85,38 @@ export function FlowerCarousel({className}: { className?: string }) {
     router.push(`/summary?${queryParam}`);
   }
 
+  const onSelect = useCallback(() => {
+    if (!api) return
+    setSelectedIndex(api.selectedScrollSnap());
+    setFlowerTitle(flowersData[api.selectedScrollSnap()].title);
+    setFlowerDescription(flowersData[api.selectedScrollSnap()].description);
+  }, [api]);
+
+  const handleFlowerClick = (index: number) => {
+    if (!api) return
+    api.scrollTo(index)
+  };
+
   useEffect(() => {
-    if (!api) {
+    if (!api) return
+
+    onSelect()
+    api.on("select", onSelect)
+
+    return () => {
+      api.off('select', onSelect);
       return
     }
-
-    api.on("select", () => {
-      setFlowerTitle(flowersData[api.selectedScrollSnap()].title)
-      setFlowerDescription(flowersData[api.selectedScrollSnap()].description)
-    })
-  }, [api]);
+  }, [api, onSelect]);
 
   return (
     <div className="flex flex-col">
       <Carousel
         setApi={setApi}
         opts={{
-          align: "start",
+          align: "center",
           loop: true,
+          watchDrag: true,
         }}
         className={cn("", className)}
       >
@@ -109,8 +124,21 @@ export function FlowerCarousel({className}: { className?: string }) {
         <CarouselContent>
           {
             flowersData.map((flower, index) => (
-              <CarouselItem key={`flower-${index}`} className="sm:basis-1/3 md:basis-1/3">
-                <FlowerCarouselItem data={flower}/>
+              <CarouselItem
+                key={`flower-${index}`}
+                onClick={() => {
+                  handleFlowerClick(index)
+                }}
+                className="sm:basis-1/3 md:basis-1/3 pl-2 md:pl-4 cursor-pointer"
+              >
+                <div className={cn(
+                  "transition-all duration-500 ease-out",
+                  index === selectedIndex
+                    ? 'scale-100'
+                    : 'scale-90 opacity-70'
+                )}>
+                  <FlowerCarouselItem data={flower}/>
+                </div>
               </CarouselItem>
             ))
           }
@@ -123,7 +151,9 @@ export function FlowerCarousel({className}: { className?: string }) {
 
       {/*TODO changer ce div et le mettre ailleurs*/}
       <div className="flex justify-center py-5">
-        <Button onClick={onClick} className="w-fit">Je choisis ces fleurs</Button>
+        <Button onClick={onClick} className="w-fit">
+          Je choisis ces fleurs
+        </Button>
       </div>
     </div>
   )

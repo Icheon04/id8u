@@ -3,6 +3,7 @@ import {Suspense} from "react";
 
 import {CardDataType} from "@/components/GoogleMapsAddressCard/card";
 import {GoogleMapsAddressCards} from "@/components/GoogleMapsAddressCard/cards";
+import SkeletonCards from "@/components/GoogleMapsAddressCard/skeletonCards";
 
 export default function HomePage()  {
   const data: CardDataType[] = [{
@@ -34,7 +35,7 @@ export default function HomePage()  {
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 w-fit">
         <h1>Peut être que tu voudrais faire une activitée ? </h1>
         <p>Ce qu'il y a en étoile c'est que j'aurais aimé faire</p>
-        <Suspense>
+        <Suspense fallback={<SkeletonCards/>}>
           <GoogleMapsAddressCards data={data} redirectUrl="/what-about-you" placeKeyQuery="placeActivityId"/>
         </Suspense>
       </div>
