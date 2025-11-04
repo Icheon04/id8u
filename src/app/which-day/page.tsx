@@ -33,7 +33,7 @@ export default function HomePage() {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-4">
-      <h1>Quel jour t'arrangerait le mieux ?</h1>
+      <h1>Ahhh, quel jour t'arrangerait le mieux ?</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center p-4">
           <FormField

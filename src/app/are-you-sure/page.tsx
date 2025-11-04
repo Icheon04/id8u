@@ -12,8 +12,8 @@ export default function AreYouSure() {
     <main className="flex flex-col items-center justify-center min-h-screen gap-4">
       <h1>Donc c'est vraiment un non?</h1>
       <div className="flex gap-4">
-        <Button className="green" onClick={() => {router.push("/which-day")}}>Oui</Button>
-        <Button className="red" onClick={() => {router.push("/are-you-sure/bye-bye")}}>Non</Button>
+        <Button className="green" onClick={() => {router.push("/are-you-sure/bye-bye")}}>Oui</Button>
+        <Button className="red" onClick={() => {router.push("/which-day")}}>Non</Button>
       </div>
     </main>
   )

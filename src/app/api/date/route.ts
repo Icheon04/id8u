@@ -1,12 +1,12 @@
 import {NextResponse} from "next/server";
 
-import {Sendgrid} from "@/lib/mailer/sendgrid";
+import {ResendApi} from "@/lib/mailer/resend";
 import {dateResponseSchema} from "@/lib/schema/dateResponseSchema";
 
 export async function POST(req: Request){
   const data = await req.json();
   const result = dateResponseSchema.safeParse(data);
-  const sendgridApi = new Sendgrid();
+  const emailerApi = new ResendApi();
 
   const msg = {
     to: process.env.EMAIL_RECEIVER ?? "name@email.com",
@@ -18,7 +18,7 @@ export async function POST(req: Request){
 
   if (result.success) {
     try {
-      await sendgridApi.send(msg);
+      await emailerApi.send(msg);
       return NextResponse.json({message:"success"});
     } catch(e) {
       const error = e as Error;
