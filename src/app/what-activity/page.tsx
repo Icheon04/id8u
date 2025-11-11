@@ -1,40 +1,26 @@
 import * as React from "react";
 import {Suspense} from "react";
 
-import {CardDataType} from "@/components/GoogleMapsAddressCard/card";
+import {prismaClient} from "@/lib/prisma/prismaClient";
+import {Address} from "@/lib/schema/addressBodySchema";
+
 import {GoogleMapsAddressCards} from "@/components/GoogleMapsAddressCard/cards";
 import SkeletonCards from "@/components/GoogleMapsAddressCard/skeletonCards";
 
-export default function HomePage()  {
-  const data: CardDataType[] = [{
-    title: "L'activité",
-    address: {
-      street: "Quelque part",
-      district: "dans le 10e arrondissemnt peut être",
-      location: "à Paris"
-    },
-    rating: 4,
-    googleMapsUrl: "https://maps.app.goo.gl/Mj8omnVuQ57ctYZ76",
-    googleMapsId: "0",
-    pictureUrl: "none",
-  }, {
-    title: "L'activité 2",
-    address: {
-      street: "Quelque part",
-      district: "dans le 10e arrondissemnt peut être",
-      location: "à Paris"
-    },
-    rating: 4,
-    googleMapsUrl: "https://maps.app.goo.gl/Mj8omnVuQ57ctYZ76",
-    googleMapsId: "0",
-    pictureUrl: "none",
-  }];
+export default async function HomePage()  {
+  const {prismaApi} = prismaClient();
+
+  const data = await prismaApi().address.findMany({
+    where: {
+      category: "activity",
+    }
+  }) as Address[];
 
   return (
     <main className="flex justify-center">
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 w-fit">
         <h1>Peut être que tu voudrais faire une activitée ? </h1>
-        <p>Ce qu'il y a en étoile c'est que j'aurais aimé faire</p>
+        <p>Ça nous permettra de nous apprendre un peu plus comme ça !</p>
         <Suspense fallback={<SkeletonCards/>}>
           <GoogleMapsAddressCards data={data} redirectUrl="/what-about-you" placeKeyQuery="placeActivityId"/>
         </Suspense>

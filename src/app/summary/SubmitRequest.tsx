@@ -1,25 +1,25 @@
 "use client";
 
-import {useRouter, useSearchParams} from "next/navigation";
+import {useRouter} from "next/navigation";
 import * as React from "react";
 
-import {sendDateResponse} from "@/lib/api/api";
-import {DateResponseType} from "@/lib/schema/dateResponseSchema";
+import {apiClient} from "@/lib/api/apiClient";
 
 import {Button} from "@/components/ui/button";
 
-function SubmitRequest(){
+function SubmitRequest({data} : {data: any}){
+  const {sendDateRequest} = apiClient();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const response: DateResponseType = {
-    date: searchParams.get("date") ?? "undefined",
-    activityPlaceGoogleMapsId: searchParams.get("placeActivityId")  ?? "undefined",
-    foodPlaceGoogleMapsId: searchParams.get("placeFoodId") ?? "undefined",
-    flower: searchParams.get("flower") ?? "undefined",
-  }
 
   const onClick = async () => {
-    await sendDateResponse(response)
+    await sendDateRequest({
+      date: data.date,
+      restaurant: data.restaurant,
+      restaurantMapsUrl: data.restaurantMapsUrl,
+      activity: data.activity,
+      activityMapsUrl: data.activityMapsUrl,
+      flower: data.flower,
+    })
     router.push("/summary/see-you-soon")
   }
 

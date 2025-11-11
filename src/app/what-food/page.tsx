@@ -1,34 +1,19 @@
 import {Suspense} from "react";
 
-import {CardDataType} from "@/components/GoogleMapsAddressCard/card";
+import {prismaClient} from "@/lib/prisma/prismaClient";
+import {Address} from "@/lib/schema/addressBodySchema";
+
 import {GoogleMapsAddressCards} from "@/components/GoogleMapsAddressCard/cards";
 import SkeletonCards from "@/components/GoogleMapsAddressCard/skeletonCards";
 
-export default function WhatFood() {
-  const data: CardDataType[] = [{
-      title: "Le restau",
-      address: {
-          street: "Quelque part",
-          district: "dans le 10e arrondissemnt peut être",
-          location: "à Paris"
-      },
-      rating: 4,
-      googleMapsUrl: "https://maps.app.goo.gl/Mj8omnVuQ57ctYZ76",
-      googleMapsId: "0",
-      pictureUrl: "none",
-  }, {
-      title: "Le restau 2",
-      address: {
-          street: "Quelque part",
-          district: "dans le 10e arrondissemnt peut être",
-          location: "à Paris"
-      },
-      rating: 4,
-      googleMapsUrl: "https://maps.app.goo.gl/Mj8omnVuQ57ctYZ76",
-      googleMapsId: "1",
-      pictureUrl: "none",
-  }];
+export default async function WhatFood() {
+  const {prismaApi} = prismaClient();
 
+  const data = await prismaApi().address.findMany({
+    where: {
+      category: "restaurant",
+    }
+  }) as Address[];
 
   return (
     <main className="flex justify-center">

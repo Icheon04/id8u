@@ -4,6 +4,8 @@ import Link from "next/link";
 import {useRouter, useSearchParams} from "next/navigation";
 import {z} from "zod";
 
+import {Address} from "@/lib/schema/addressBodySchema";
+
 import Button from "@/components/buttons/Button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 
@@ -23,7 +25,7 @@ export const cardSchema = z.object({
 export type CardDataType = z.infer<typeof cardSchema>
 
 export function GoogleMapsAddressCard({data, redirectUrl, placeKeyQuery}: Readonly<{
-  data: CardDataType,
+  data: Address,
   redirectUrl: string,
   placeKeyQuery: string
 }>) {
@@ -38,7 +40,7 @@ export function GoogleMapsAddressCard({data, redirectUrl, placeKeyQuery}: Readon
         queries[key] = data;
       }
     }
-    queries[placeKeyQuery] = data.googleMapsId;
+    queries[placeKeyQuery] = data.id;
 
     const queryParam = new URLSearchParams(queries);
     router.push(`${redirectUrl}?${queryParam}`);
@@ -50,11 +52,11 @@ export function GoogleMapsAddressCard({data, redirectUrl, placeKeyQuery}: Readon
         <CardTitle>{data.title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>{`${data.address.street}, ${data.address.district}, ${data.address.location}`}</p>
-        <p>noté: {data.rating}</p>
+        <p>{`${data.street}`}</p>
+        <p>{`${data.description}`}</p>
         <div className="items-center space-x-3">
           <Button>
-            <Link href={data.googleMapsUrl} target="_blank">Aller sur google maps</Link>
+            <Link href={data.mapsUrl} target="_blank">Aller sur google maps</Link>
           </Button>
           <Button onClick={onclick}>Je prends celui là !</Button>
         </div>
