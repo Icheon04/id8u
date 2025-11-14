@@ -6,8 +6,8 @@ import {useCallback, useEffect, useState} from "react";
 import {FlowerPictureType} from "@/lib/schema/flowerPictureSchema";
 import {cn} from "@/lib/utils";
 
+import Button from "@/components/buttons/Button";
 import {FlowerCarouselItem} from "@/components/carousel/flowerCarouselItem";
-import {Button} from "@/components/ui/button";
 import {
   Carousel,
   CarouselApi,
@@ -16,6 +16,7 @@ import {
   CarouselNext,
   CarouselPrevious
 } from "@/components/ui/carousel";
+import {Spinner} from "@/components/ui/spinner";
 
 import amaryllis from "@/assets/flowers/amaryllis.jpg";
 import anemone from "@/assets/flowers/anemone.jpg"
@@ -67,12 +68,14 @@ export function FlowerCarousel({className}: { className?: string }) {
   const [api, setApi] = useState<CarouselApi>();
   const [flowerTitle, setFlowerTitle] = useState(flowersData[0].title);
   const [flowerDescription, setFlowerDescription] = useState(flowersData[0].description);
+  const [clicked, setClicked] = useState<boolean>(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
   const queries: { [key: string]: string } = {}
 
   const onClick = () => {
+    setClicked(true);
     for (const key of searchParams.keys()) {
       const data = searchParams.get(key);
       if (data) {
@@ -118,7 +121,7 @@ export function FlowerCarousel({className}: { className?: string }) {
           loop: true,
           watchDrag: true,
         }}
-        className={cn("", className)}
+        className={cn("w-full max-sm:max-w-[260px]", className)}
       >
         <CarouselPrevious/>
         <CarouselContent>
@@ -129,7 +132,7 @@ export function FlowerCarousel({className}: { className?: string }) {
                 onClick={() => {
                   handleFlowerClick(index)
                 }}
-                className="sm:basis-1/3 md:basis-1/3 pl-2 md:pl-4 cursor-pointer"
+                className=" sm:basis-1/3 md:basis-1/3 cursor-pointer"
               >
                 <div className={cn(
                   "transition-all duration-500 ease-out",
@@ -143,7 +146,7 @@ export function FlowerCarousel({className}: { className?: string }) {
             ))
           }
         </CarouselContent>
-        <CarouselNext/>
+        <CarouselNext className="md:mr-14"/>
       </Carousel>
       <div className="px-5 -mt-5 text-center text-sm text-muted-foreground">
         <b>{flowerTitle.charAt(0).toUpperCase() + flowerTitle.slice(1)}</b> - {flowerDescription}
@@ -151,8 +154,10 @@ export function FlowerCarousel({className}: { className?: string }) {
 
       {/*TODO changer ce div et le mettre ailleurs*/}
       <div className="flex justify-center py-5">
-        <Button onClick={onClick} className="w-fit">
-          Je choisis ces fleurs
+        <Button onClick={onClick} className="justify-center min-h-[40px] min-w-[200px] w-fit">
+          {clicked ? (<Spinner/>) : (
+            "Je choisis ces fleurs"
+          )}
         </Button>
       </div>
     </div>

@@ -16,14 +16,14 @@ export default async function WhatFood() {
   }) as Address[];
 
   return (
-    <main className="flex justify-center">
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4 w-fit">
-        <h1>Dans quel restaurant tu souhaiterais manger ? </h1>
+    <main className="flex flex-col items-center justify-center min-h-screen gap-4">
+      <div className="text-center">
+        <h1 className="max-sm:text-lg">Dans quel restaurant tu souhaiterais manger ? </h1>
         <p>Je te mets des suggestions juste en bas, mais descends en fin de page si tu as une idée</p>
-        <Suspense fallback={<SkeletonCards/>}>
-          <GoogleMapsAddressCards data={data} redirectUrl="/what-activity" placeKeyQuery="placeFoodId"/>
-        </Suspense>
       </div>
+      <Suspense fallback={<SkeletonCards/>}>
+        <GoogleMapsAddressCards data={data} redirectUrl="/what-activity" placeKeyQuery="placeFoodId"/>
+      </Suspense>
     </main>
   );
 };

@@ -8,9 +8,10 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import '@/lib/env';
 
-import {Button} from "@/components/ui/button";
+import Button from "@/components/buttons/Button";
 import {Calendar} from "@/components/ui/calendar";
 import {Form, FormField} from "@/components/ui/form";
+import {Spinner} from "@/components/ui/spinner";
 
 const DateSchema = z.object({
   date: z.date().optional(),
@@ -18,6 +19,7 @@ const DateSchema = z.object({
 
 export default function HomePage() {
   const router = useRouter()
+  const [clicked, setClicked] = React.useState(false);
 
   const [date, setDate] = React.useState<Date | undefined>(new Date(new Date().setDate(new Date().getDate() + 1)))
   const form = useForm<z.infer<typeof DateSchema>>({
@@ -28,12 +30,13 @@ export default function HomePage() {
   const onSubmit = () => {
     const selectedDate = date?.toLocaleDateString() ?? new Date().toLocaleDateString();
     const queries = new URLSearchParams({date: selectedDate});
+    setClicked(true);
     router.push(`/what-food?${queries}`)
   }
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-4">
-      <h1>Ahhh, quel jour t'arrangerait le mieux ?</h1>
+      <h1 className="max-sm:text-lg">Ahhh, quel jour t'arrangerait le mieux ?</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center p-4">
           <FormField
@@ -52,9 +55,11 @@ export default function HomePage() {
                 className="rounded-lg border mb-4 [--day:--spacing()] max-sm:[--cell-size:40px] md:[--cell-size:50px]"
               />
             )}/>
-          <Button type="submit" disabled={!date}>
-            {date ? "J'ai choisi ma date, à table !" : "Aïe il faut choisir une date"}
-          </Button>
+          { clicked ? (<Spinner/>) : (
+            <Button type="submit" disabled={!date}>
+              {date ? "J'ai choisi ma date, à table !" : "Aïe il faut choisir une date"}
+            </Button>
+          )}
         </form>
       </Form>
     </main>

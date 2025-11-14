@@ -47,22 +47,22 @@ export default async function Summary({
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-4">
-      <h1>Résumé du rendez-vous</h1>
-      <div className="flex flex-col items-center my-4 gap-4">
+      <h1 className="max-sm:text-lg">Résumé du rendez-vous</h1>
+      <div className="flex flex-col max-sm:items-start max-sm:p-10 items-center my-4 gap-4">
         <div className="flex items-baseline gap-4">
-          <h2>La date</h2>
+          <h2 className="max-sm:text-lg">La date</h2>
           <p>{localDate}</p>
         </div>
-        <div className="flex items-baseline gap-4">
-          <h2>Le restaurant</h2>
+        <div className="md:flex items-baseline gap-4">
+          <h2 className="max-sm:text-lg">Le restaurant</h2>
           <p>{`${restaurantData?.title} - ${restaurantData?.street}`}</p>
         </div>
-        <div className="flex items-baseline gap-4">
-          <h2>L'activité</h2>
+        <div className="md:flex items-baseline gap-4">
+          <h2 className="max-sm:text-lg">L'activité</h2>
           <p>{`${activityData?.title} - ${activityData?.street}`}</p>
         </div>
         <div className="flex items-baseline gap-4">
-          <h2>La fleur</h2>
+          <h2 className="max-sm:text-lg">La fleur</h2>
           <p>{flower}</p>
         </div>
       </div>

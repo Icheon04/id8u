@@ -17,14 +17,14 @@ export default async function HomePage()  {
   }) as Address[];
 
   return (
-    <main className="flex justify-center">
-      <div className="flex flex-col items-center justify-center min-h-screen gap-4 w-fit">
+    <main className="flex flex-col items-center justify-center min-h-screen gap-4">
+      <div className="text-center mx-2">
         <h1>Peut être que tu voudrais faire une activitée ? </h1>
         <p>Ça nous permettra de nous apprendre un peu plus comme ça !</p>
-        <Suspense fallback={<SkeletonCards/>}>
-          <GoogleMapsAddressCards data={data} redirectUrl="/what-about-you" placeKeyQuery="placeActivityId"/>
-        </Suspense>
       </div>
+      <Suspense fallback={<SkeletonCards/>}>
+        <GoogleMapsAddressCards data={data} redirectUrl="/what-about-you" placeKeyQuery="placeActivityId"/>
+      </Suspense>
     </main>
   );
 }
